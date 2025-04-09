@@ -20,4 +20,8 @@
         <Using Include="NUnit.Framework"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Graph\Graph.csproj" />
+    </ItemGroup>
+
 </Project>

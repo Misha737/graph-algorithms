@@ -1,5 +1,5 @@
 ﻿using Graph;
 
-BaseGraph graph = new AssociativeGraph<int>();
+BaseGraph<int> graph = new AssociativeGraph<int>();
 
 Console.WriteLine(graph.CountVertex);
