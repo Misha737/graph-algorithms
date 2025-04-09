@@ -85,4 +85,20 @@ public class AssociativeGraphTests
 
         Assert.That(result, Is.EqualTo(false));
     }
+
+    [Test]
+    public void Graph_DeleteVertex_DictAreEqual()
+    {
+        Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
+        dict[4] = new List<int> { 5, 6 };
+        dict[5] = new List<int>(){6};
+        dict[6] = new List<int>(4);
+        AssociativeGraph<int> graph = new AssociativeGraph<int>(dict);
+        
+        graph.DeleteVertex(6);
+
+        Assert.That(graph.Data[4].ToArray(), Is.EquivalentTo(new []{5}));
+        Assert.That(graph.Data[5].ToArray(), Is.EquivalentTo(Enumerable.Empty<int>()));
+        Assert.That(graph.Data.ContainsKey(6), Is.EqualTo(false));
+    }
 }

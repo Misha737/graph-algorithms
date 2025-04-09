@@ -27,12 +27,28 @@ public class AssociativeGraph<T> : BaseGraph<T>, IEnumerable<KeyValuePair<T, Lis
 
     public override void AddVertex(T vertex, List<T>? edges = null)
     {
-        throw new NotImplementedException();
+        if (!_data.ContainsKey(vertex))
+        {
+            _data[vertex] = new List<T>();
+        }
+        
+        if (edges != null)
+        {
+            _data[vertex].AddRange(edges);
+        }
     }
 
     public override void DeleteVertex(T vertex)
     {
-        throw new NotImplementedException();
+        if (!_data.ContainsKey(vertex))
+            return;
+
+        foreach (var pair in this)
+        {
+            pair.Value.Remove(vertex);
+        }
+
+        _data.Remove(vertex);
     }
 
     public override List<T>? GetEdgesByVertex(T vertex)
