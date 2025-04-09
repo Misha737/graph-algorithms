@@ -6,11 +6,17 @@ public abstract class BaseGraph<T> where T: IEquatable<T>
     public int CountEdges { get; protected set; }
 
     // To add a new vertex with edges and adding new edges for an existing vertex
-    public abstract void Push(T vertex, List<T> edges);
+    public abstract void AddVertex(T vertex, List<T>? edges = null);
     // To delete a existing vertex
-    public abstract void Delete(T vertex);
-    // To replace edges for an existing vertex 
-    public abstract void Update(T vertex, List<T> edges);
+    public abstract void DeleteVertex(T vertex);
     // To get edges by a some vertex. Null if a vertex doesn't exist
-    public abstract List<T>? GetEdges(T vertex);
+    public abstract List<T>? GetEdgesByVertex(T vertex);
+
+    // To add relation between a vertex and an edge
+    public abstract void AddEdge(T vertex, T edge);
+    // To delete relation between a vertex and an edge
+    public abstract void DeleteEdge(T vertex, T edge);
+
+    // To replace edges for an existing vertex 
+    public abstract void UpdateEdges(T vertex, List<T> edges);
 }
