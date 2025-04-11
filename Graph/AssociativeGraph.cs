@@ -89,4 +89,19 @@ public class AssociativeGraph<T> : BaseGraph<T>, IEnumerable<KeyValuePair<T, Lis
     {
         return GetEnumerator();
     }
+
+    public MatrixGraph<T> ToMatrixGraph()
+    {
+        List<T> vertexes = _data.Keys.ToList();
+        int[,] matrix = new int[_data.Count, _data.Count];
+        foreach (var vertex in this)
+        {
+            foreach (var edge in vertex.Value)
+            {
+                matrix[vertexes.IndexOf(vertex.Key), vertexes.IndexOf(edge)] = 1;
+            }
+        }
+
+        return new MatrixGraph<T>(matrix, vertexes);
+    }
 }

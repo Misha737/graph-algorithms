@@ -63,7 +63,7 @@ public class AssociativeGraphTests
         Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
         dict[4] = new List<int> { 5, 6 };
         dict[5] = new List<int>();
-        dict[6] = new List<int>(4);
+        dict[6] = new List<int>(){4};
         AssociativeGraph<int> graph = new AssociativeGraph<int>(dict);
 
         bool result = graph.AddEdge(5, 6);
@@ -78,7 +78,7 @@ public class AssociativeGraphTests
         Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
         dict[4] = new List<int> { 5, 6 };
         dict[5] = new List<int>();
-        dict[6] = new List<int>(4);
+        dict[6] = new List<int>(){4};
         AssociativeGraph<int> graph = new AssociativeGraph<int>(dict);
 
         bool result = graph.AddEdge(5, 7);
@@ -92,7 +92,7 @@ public class AssociativeGraphTests
         Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
         dict[4] = new List<int> { 5, 6 };
         dict[5] = new List<int>(){6};
-        dict[6] = new List<int>(4);
+        dict[6] = new List<int>(){4};
         AssociativeGraph<int> graph = new AssociativeGraph<int>(dict);
         
         graph.DeleteVertex(6);
@@ -108,7 +108,7 @@ public class AssociativeGraphTests
         Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
         dict[4] = new List<int> { 5, 6 };
         dict[5] = new List<int>(){6};
-        dict[6] = new List<int>(4);
+        dict[6] = new List<int>(){4};
         AssociativeGraph<int> graph = new AssociativeGraph<int>(dict);
 
         int[] edges = graph.GetEdgesByVertex(4)!.ToArray();
@@ -121,10 +121,30 @@ public class AssociativeGraphTests
         Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
         dict[4] = new List<int> { 5, 6 };
         dict[5] = new List<int>(){6};
-        dict[6] = new List<int>(4);
+        dict[6] = new List<int>(){4};
         AssociativeGraph<int> graph = new AssociativeGraph<int>(dict);
 
         List<int>? edges = graph.GetEdgesByVertex(7);
         Assert.That(edges, Is.Null);
+    }
+
+    [Test]
+    public void AssociativeGraph_ToMatrixGraph_MatrixAreEqual()
+    {
+        int[,] expectedMatrix = new int[3,3];
+        expectedMatrix[0, 1] = 1;
+        expectedMatrix[0, 2] = 1;
+        expectedMatrix[1, 2] = 1;
+        expectedMatrix[2, 0] = 1;
+        Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
+        dict[4] = new List<int> { 5, 6 };
+        dict[5] = new List<int>(){6};
+        dict[6] = new List<int>(){4};
+        AssociativeGraph<int> graph = new AssociativeGraph<int>(dict);
+
+        MatrixGraph<int> matrixGraph = graph.ToMatrixGraph();
+        int[,] matrix = matrixGraph.Matrix;
+        
+        Assert.That(matrix, Is.EquivalentTo(expectedMatrix));
     }
 }
