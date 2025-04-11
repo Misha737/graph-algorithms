@@ -101,4 +101,30 @@ public class AssociativeGraphTests
         Assert.That(graph.Data[5].ToArray(), Is.EquivalentTo(Enumerable.Empty<int>()));
         Assert.That(graph.Data.ContainsKey(6), Is.EqualTo(false));
     }
+    
+    [Test]
+    public void Graph_GetEdgesByVertex_ListOfVertexes()
+    {
+        Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
+        dict[4] = new List<int> { 5, 6 };
+        dict[5] = new List<int>(){6};
+        dict[6] = new List<int>(4);
+        AssociativeGraph<int> graph = new AssociativeGraph<int>(dict);
+
+        int[] edges = graph.GetEdgesByVertex(4)!.ToArray();
+        Assert.That(edges, Is.EquivalentTo(new []{5, 6}));
+    }
+    
+    [Test]
+    public void Graph_GetEdgesByNonExistVertex_ListOfVertexes()
+    {
+        Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
+        dict[4] = new List<int> { 5, 6 };
+        dict[5] = new List<int>(){6};
+        dict[6] = new List<int>(4);
+        AssociativeGraph<int> graph = new AssociativeGraph<int>(dict);
+
+        List<int>? edges = graph.GetEdgesByVertex(7);
+        Assert.That(edges, Is.Null);
+    }
 }

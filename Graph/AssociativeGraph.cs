@@ -53,7 +53,8 @@ public class AssociativeGraph<T> : BaseGraph<T>, IEnumerable<KeyValuePair<T, Lis
 
     public override List<T>? GetEdgesByVertex(T vertex)
     {
-        throw new NotImplementedException();
+        _data.TryGetValue(vertex, out var byVertex);
+        return byVertex;
     }
 
     public override bool AddEdge(T vertex, T edge)
@@ -70,12 +71,13 @@ public class AssociativeGraph<T> : BaseGraph<T>, IEnumerable<KeyValuePair<T, Lis
 
     public override void DeleteEdge(T vertex, T edge)
     {
-        throw new NotImplementedException();
+        if (_data.TryGetValue(vertex, out var byVertex))
+            byVertex.Remove(edge);
     }
 
     public override void UpdateEdges(T vertex, List<T> edges)
     {
-        throw new NotImplementedException();
+        _data[vertex] = edges;
     }
 
     public IEnumerator<KeyValuePair<T, List<T>>> GetEnumerator()
