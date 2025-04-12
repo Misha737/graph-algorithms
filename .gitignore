@@ -50,3 +50,5 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+Graph.sln.DotSettings.user

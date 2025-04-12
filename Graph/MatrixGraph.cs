@@ -55,38 +55,97 @@ public class MatrixGraph<T> : BaseGraph<T> where T : IEquatable<T>
 
     public override void DeleteVertex(T vertex)
     {
-        throw new NotImplementedException();
+        int index = _edges!.IndexOf(vertex);
+        if (index == -1)
+            return;
+        _edges!.RemoveAt(index);
+        _vertCount--;
+        int[,] smallerMatrix = new int[_vertCount, _vertCount];
+        for (int i = 0; i < _vertCount; i++)
+        {
+            if (i == index)
+            {
+                continue;
+            }
+            for (int j = 0; j < _vertCount; j++)
+            {
+                if (j == index)
+                {
+                    continue;
+                }
+                var iIndex = i < index ? i : i - 1;
+                var jIndex = j < index ? j : j - 1;
+                smallerMatrix[iIndex, jIndex] = _data[i, j];
+            }
+        }
+        _data = smallerMatrix;
+        
     }
 
     public override List<T>? GetEdgesByVertex(T vertex)
     {
-        throw new NotImplementedException();
+        int index = _edges!.IndexOf(vertex);
+        if (index == -1)
+            return null;
+        
+        List<T> edges = new();
+        for (int j = 0; j < _vertCount; j++)
+        {
+            if (_data[index, j] == 0)
+                continue;
+            edges.Add(_edges![j]);
+        }
+        return edges.ToList();
     }
 
     public override bool AddEdge(T vertex, T edge)
     {
-        throw new NotImplementedException();
+        int row = _edges!.IndexOf(vertex);
+        int col = _edges!.IndexOf(edge);
+        if (row == -1 || col == -1)
+            return false;
+        _data[row, col] = 1;
+        return true;
     }
 
     public override void DeleteEdge(T vertex, T edge)
     {
-        throw new NotImplementedException();
+        int row = _edges!.IndexOf(vertex);
+        int col = _edges!.IndexOf(edge);
+        if (row == -1 || col == -1)
+            return;
+        _data[row, col] = 0;
     }
 
     public override void UpdateEdges(T vertex, List<T> edges)
     {
-        throw new NotImplementedException();
+
+        int vertIndex = edges.IndexOf(vertex);
+        if (vertIndex == -1)
+            return;
+        for (int i = 0; i < _vertCount; i++)
+            _data[vertIndex, i] = edges.Contains(_edges![i]) ? 1 : 0;
     }
 
     public void AddEdges(T vertex, List<T>? edges)
     {
         if (edges == null)
-        {
             return;
-        }
 
         int vertIndex = edges.IndexOf(vertex);
+        if (vertIndex == -1)
+            return;
         foreach (var edge in edges)
             _data[vertIndex, _edges!.IndexOf(edge)] = 1;
+    }
+
+    public void SetEmptyMatrix(List<T>? vertexes)
+    {
+        if (vertexes == null)
+            return;
+        
+        _edges = vertexes;
+        _vertCount = _edges!.Count;
+        _data = new int[_vertCount, _vertCount];
     }
 }
