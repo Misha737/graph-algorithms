@@ -138,4 +138,14 @@ public class MatrixGraph<T> : BaseGraph<T> where T : IEquatable<T>
         foreach (var edge in edges)
             _data[vertIndex, _edges!.IndexOf(edge)] = 1;
     }
+
+    public void SetEmptyMatrix(List<T>? vertexes)
+    {
+        if (vertexes == null)
+            return;
+        
+        _edges = vertexes;
+        _vertCount = _edges!.Count;
+        _data = new int[_vertCount, _vertCount];
+    }
 }
