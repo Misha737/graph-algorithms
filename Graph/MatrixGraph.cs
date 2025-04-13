@@ -9,7 +9,7 @@ public class MatrixGraph<T> : BaseGraph<T> where T : IEquatable<T>
 
     public MatrixGraph() : base()
     {
-        
+
     }
     public MatrixGraph(int[,] matrix, List<T> vertexes) : base()
     {
@@ -79,7 +79,7 @@ public class MatrixGraph<T> : BaseGraph<T> where T : IEquatable<T>
             }
         }
         _data = smallerMatrix;
-        
+
     }
 
     public override List<T>? GetEdgesByVertex(T vertex)
@@ -87,7 +87,7 @@ public class MatrixGraph<T> : BaseGraph<T> where T : IEquatable<T>
         int index = _edges!.IndexOf(vertex);
         if (index == -1)
             return null;
-        
+
         List<T> edges = new();
         for (int j = 0; j < _vertCount; j++)
         {
@@ -143,9 +143,26 @@ public class MatrixGraph<T> : BaseGraph<T> where T : IEquatable<T>
     {
         if (vertexes == null)
             return;
-        
+
         _edges = vertexes;
         _vertCount = _edges!.Count;
         _data = new int[_vertCount, _vertCount];
     }
+    public IEnumerable<int> GetMatrixNeighbors(int u)
+    {
+        if (_data == null || u < 0 || u >= _vertCount)
+        {
+            yield break;
+        }
+
+        for (int v = 0; v < _vertCount; v++)
+        {
+           if (_data[u, v] == 1)
+           {
+             yield return v;
+           }
+            
+        }
+    }
 }
+
