@@ -26,4 +26,31 @@ public class GraphGenerator
 
         return graph;
     }
+    
+    public AssociativeGraph<int>? GenerateAssociativeGraph(int vertexCount, int densityPercent)
+    {
+        if (vertexCount <= 0 || densityPercent < 0)
+            return null;
+
+        var graph = new AssociativeGraph<int>(new Dictionary<int, List<int>>());
+
+        // Додаємо всі вершини без ребер
+        for (int i = 0; i < vertexCount; i++)
+            graph.AddVertex(i);
+
+        double probability = densityPercent / 100.0;
+
+        for (int i = 0; i < vertexCount; i++)
+        {
+            for (int j = 0; j < vertexCount; j++)
+            {
+                if (i != j && _rand.NextDouble() < probability)
+                {
+                    graph.AddEdge(i, j); // Спрямоване ребро
+                }
+            }
+        }
+
+        return graph;
+    }
 }

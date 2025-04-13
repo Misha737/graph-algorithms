@@ -24,4 +24,7 @@ public abstract class BaseGraph<T> where T: IEquatable<T>
 
     // To replace edges for an existing vertex 
     public abstract void UpdateEdges(T vertex, List<T> edges);
+    public abstract int GetVertexCount();
+
+    public abstract IEnumerable<T> GetNeighbors(T u);
 }

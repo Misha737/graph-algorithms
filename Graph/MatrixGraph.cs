@@ -17,6 +17,11 @@ public class MatrixGraph<T> : BaseGraph<T> where T : IEquatable<T>
         _edges = vertexes;
     }
 
+    public override int GetVertexCount()
+    {
+        return _vertCount;
+    }
+
     public override void AddVertex(T vertex, List<T>? edges = null)
     {
         if (edges == null)
@@ -148,20 +153,21 @@ public class MatrixGraph<T> : BaseGraph<T> where T : IEquatable<T>
         _vertCount = _edges!.Count;
         _data = new int[_vertCount, _vertCount];
     }
-    public IEnumerable<int> GetMatrixNeighbors(int u)
+    public override IEnumerable<T> GetNeighbors(T val)
     {
-        if (_data == null || u < 0 || u >= _vertCount)
+        if (_data == null || val.GetType() == typeof(int))
         {
             yield break;
         }
+
+        int u = _edges!.IndexOf(val);
 
         for (int v = 0; v < _vertCount; v++)
         {
            if (_data[u, v] == 1)
            {
-             yield return v;
+               yield return (T)(object)v;
            }
-            
         }
     }
 }

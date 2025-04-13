@@ -1,11 +1,17 @@
-﻿namespace Graph
+﻿using System.Diagnostics;
+
+namespace Graph
 {
     public class TarjanSCC
     {
-        public static List<List<int>> Run(MatrixGraph<int> graph)
+        public static List<List<int>>? Run(object Graph, string type = "matrix")
         {
-            int n = graph.Matrix.GetLength(0);
 
+            BaseGraph<int>? graph = type == "matrix" ? Graph as MatrixGraph<int> : Graph as AssociativeGraph<int>;
+            if (graph is null)
+                throw new NullReferenceException();
+            
+            int n = graph!.GetVertexCount();
             int[] disc = new int[n], low = new int[n];
             bool[] inStack = new bool[n];
             Stack<int> stack = new Stack<int>();
@@ -18,7 +24,7 @@
                 stack.Push(u);
                 inStack[u] = true;
 
-                var neighbors = graph.GetMatrixNeighbors(u);
+                var neighbors = graph.GetNeighbors(u);
                 foreach (int v in neighbors)
                 {
                     if (disc[v] == 0)
