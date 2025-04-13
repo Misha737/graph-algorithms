@@ -155,7 +155,7 @@ public class MatrixGraph<T> : BaseGraph<T> where T : IEquatable<T>
     }
     public override IEnumerable<T> GetNeighbors(T val)
     {
-        if (_data == null || val.GetType() == typeof(int))
+        if (_data == null)
         {
             yield break;
         }
