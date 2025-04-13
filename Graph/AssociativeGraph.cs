@@ -104,4 +104,22 @@ public class AssociativeGraph<T> : BaseGraph<T>, IEnumerable<KeyValuePair<T, Lis
 
         return new MatrixGraph<T>(matrix, vertexes);
     }
+    
+    public override IEnumerable<T> GetNeighbors(T u)
+    {
+        if (_data is null)
+        {
+            yield break;
+        }
+
+        foreach (var v in _data[u])
+        {
+            yield return v;
+        }
+    }
+
+    public override int GetVertexCount()
+    {
+        return _data.Count;
+    }
 }
